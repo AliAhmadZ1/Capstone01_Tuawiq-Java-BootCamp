@@ -20,20 +20,20 @@ public class User {
     @NotEmpty(message = "User id shouldn't be empty")
     private String id;
     @NotEmpty(message = "username cannot be empty")
-    @Size(min = 5,message = "have to be more than 5 length long")
+    @Size(min = 5,message = "username have to be more than 5 length long")
     private String username;
     @NotEmpty(message = "password cannot be empty")
-    @Size(min = 6,message = "have to be more than 6 length long")
+    @Size(min = 6,message = "password have to be more than 6 length long")
     @Pattern(regexp = "^([0-9]|[a-z]|[A-Z])+$",message = "characters and digits only...")
     private String password;
     @NotEmpty(message = "email cannot be empty")
-    @Email(message = "should be an email format (example@test.com)")
+    @Email(/*regexp = "^(\\w([\\w]|[\\d+])+[.|_]*([\\w]|[\\d+])*)@$",*/ message = "should be an email format (example@test)")
     private String email;
     @NotEmpty(message = "role cannot be empty")
-    @Pattern(regexp = "^(Admin|Customer)$",message = "have to be in ( “Admin”,”Customer”)")
+    @Pattern(regexp = "^(Admin|Customer)$",message = "role have to be in (“Admin”,”Customer”)")
     private String role;
     @NotNull(message = "balance cannot be null")
-    @Positive(message = "have to be positive number")
-    private int balance;
+    @PositiveOrZero(message = "balance have to be positive number")
+    private double balance;
 
 }

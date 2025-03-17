@@ -1,7 +1,6 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Controller;
 
 import com.example.capstone01_tuwaiqjavabootcamp.ApiResponse.ApiResponse;
-import com.example.capstone01_tuwaiqjavabootcamp.Model.Category;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Merchant;
 import com.example.capstone01_tuwaiqjavabootcamp.Service.MerchantService;
 import jakarta.validation.Valid;
@@ -59,8 +58,14 @@ public class MerchantController {
     //• this endpoint should accept a product id and merchant id and the amount of additional stock.
     @PutMapping("/add-product-stock/{productId},{merchantId},{stockAmount}")
     public ResponseEntity addProductStock(@PathVariable String productId, @PathVariable String merchantId, @PathVariable int stockAmount) {
-        if (merchantService.addProductStock(productId, merchantId, stockAmount))
-            return ResponseEntity.status(200).body(new ApiResponse("stock of product is added"));
-        return ResponseEntity.status(400).body(new ApiResponse("not found"));
+        if (stockAmount>0) {
+            if (merchantService.addProductStock(productId, merchantId, stockAmount).equals("stocked"))
+                return ResponseEntity.status(200).body(new ApiResponse("stock of product is added"));
+            if (merchantService.addProductStock(productId, merchantId, stockAmount).equals("product"))
+                return ResponseEntity.status(400).body(new ApiResponse("product not found"));
+            return ResponseEntity.status(400).body(new ApiResponse("merchant not found"));
+        }
+        return ResponseEntity.status(400).body(new ApiResponse("stock amount cannot be negative or zero"));
     }
+
 }

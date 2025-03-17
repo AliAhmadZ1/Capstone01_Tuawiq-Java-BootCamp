@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MerchantStockController {
 
+
     private final MerchantStockService merchantStockService;
     //9- Create endpoint for getting and adding and deleting updating a MerchantStockStock.
 

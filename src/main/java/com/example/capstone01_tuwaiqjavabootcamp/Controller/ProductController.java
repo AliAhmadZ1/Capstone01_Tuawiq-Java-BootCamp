@@ -30,9 +30,12 @@ public class ProductController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(400).body(message);
         }
-        if (productService.addProduct(product))
+        String stringFlag = productService.addProduct(product);
+        if (stringFlag.equals("id"))
+            return ResponseEntity.status(400).body(new ApiResponse("already exist"));
+        else if (stringFlag.equals("category"))
             return ResponseEntity.status(200).body(new ApiResponse("new product is added"));
-        return ResponseEntity.status(400).body(new ApiResponse("already exist"));
+        return ResponseEntity.status(400).body(new ApiResponse("categoryID is not found"));
     }
 
     @PutMapping("/update/{id}")

@@ -4,13 +4,13 @@ import com.example.capstone01_tuwaiqjavabootcamp.ApiResponse.ApiResponse;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.User;
 import com.example.capstone01_tuwaiqjavabootcamp.Service.UserService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.http.HttpResponse;
 
 @RestController
 @RequestMapping("/api/v1/user")
@@ -52,12 +52,12 @@ public class UserController {
             String message = errors.getFieldError().getDefaultMessage();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
         }
-        if (userService.updateUser(id, user).equals("username"))
+        String stringFlag = userService.updateUser(id, user);
+        if (stringFlag.equals("username"))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("username is already used"));
-        if (userService.updateUser(id, user).equals("email"))
+        if (stringFlag.equals("email"))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Email is already registered"));
-        if (userService.updateUser(id, user).equals("update")) {
-            userService.updateUser(id, user);
+        if (stringFlag.equals("update")) {
             return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("user is updated"));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponse("Not Found"));
@@ -77,5 +77,25 @@ public class UserController {
 //• reduce the stock from the MerchantStock.
 //• deducted the price of the product from the user balance.
 //• if balance is less than the product price returns bad request.
+
+    @PutMapping("/buy/{userId},{productId},{merchantId}")
+    public ResponseEntity buyProduct(@PathVariable String userId,@PathVariable String productId, @PathVariable String merchantId){
+        String stringFlag = userService.buyProduct(userId, productId, merchantId);
+        if (stringFlag.equals("user"))
+            return ResponseEntity.status(400).body(new ApiResponse("user not found"));
+        if (stringFlag.equals("product"))
+            return ResponseEntity.status(400).body(new ApiResponse("product not found"));
+        if (stringFlag.equals("merchant"))
+            return ResponseEntity.status(400).body(new ApiResponse("merchant not found"));
+        if (stringFlag.equals("no stock"))
+            return ResponseEntity.status(400).body(new ApiResponse("the product is out of stock"));
+        if (stringFlag.equals("less balance"))
+            return ResponseEntity.status(400).body(new ApiResponse("you don't have enough balance to buy."));
+        return ResponseEntity.status(200).body(new ApiResponse("successfully purchased"));
+    }
+
+
+
+
 
 }

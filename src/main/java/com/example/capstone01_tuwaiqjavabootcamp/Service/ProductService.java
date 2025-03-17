@@ -1,28 +1,38 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
+import com.example.capstone01_tuwaiqjavabootcamp.Model.Category;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
+    private final CategoryService categoryService;
     ArrayList<Product> products = new ArrayList<>();
-
+    ArrayList<Category> categories = new ArrayList<>();
 
     public ArrayList<Product> getProduct() {
         return products;
     }
 
-    public boolean addProduct(Product product) {
+    public String addProduct(Product product) {
+        categories = categoryService.getCategories();
         for (Product p:products) {
             if (p.getId().equals(product.getId()))
-                return false;
+                return "id";
         }
-        products.add(product);
-        return true;
+        for (Category c:categories){
+            if (c.getId()==product.getCategoryID()){
+                products.add(product);
+                return "category";
+            }
+        }
+        return "";
     }
 
     public boolean updateProduct(String id, Product product) {

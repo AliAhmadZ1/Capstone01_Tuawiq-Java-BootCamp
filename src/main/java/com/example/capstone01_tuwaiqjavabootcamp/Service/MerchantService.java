@@ -1,13 +1,19 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Merchant;
+import com.example.capstone01_tuwaiqjavabootcamp.Model.MerchantStock;
+import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class MerchantService {
 
+    private final ProductService productService;
+    private final MerchantStockService merchantStockService;
     ArrayList<Merchant> merchants = new ArrayList<>();
 
     public ArrayList<Merchant> getMerchant() {
@@ -43,8 +49,23 @@ public class MerchantService {
         return false;
     }
 
-    public boolean addProductStock(String productId, String merchantId, int stockAmount){
-        return true;
+    public String addProductStock(String productId, String merchantId, int stockAmount){
+        for (Merchant m:merchants){
+            if (m.getId().equals(merchantId)){
+                for (Product p: productService.getProduct()){
+                    if (p.getId().equals(productId)){
+                        for (MerchantStock ms:merchantStockService.getMerchantStock()){
+                            if (ms.getMerchantId().equals(merchantId)&&ms.getProductId().equals(productId)){
+                                ms.setStock(ms.getStock()+stockAmount);
+                                return "stocked";
+                            }
+                        }
+                    }
+                }
+                return "product";
+            }
+        }
+        return "";
     }
 
 }

@@ -19,8 +19,9 @@ public class Product {
     @Size(min = 3,message = "product name should be more than 3 in length size")
     private String name;
     @NotNull(message = "price cannot be null")
-    @Positive(message = "shouldn't be negative")
+    @Positive(message = "price shouldn't be negative")
     private double price;
+    private double offerPrice = 0;
     @NotNull(message = "category ID cannot be null!!")
     private int categoryID;
 

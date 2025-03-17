@@ -24,7 +24,7 @@ public class MerchantStock {
     @NotEmpty(message = "merchant-id cannot be empty")
     private String merchantId;
     @NotNull(message = "stock cannot be null")
-    @Min(value = 10,message = "have to be at least 10 in first sign")
+    @Min(value = 10,message = "stock have to be at least 10 in first sign")
     private int stock;
 
 }

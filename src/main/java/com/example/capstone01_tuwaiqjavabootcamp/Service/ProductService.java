@@ -55,5 +55,13 @@ public class ProductService {
         return false;
     }
 
+    public void addOffer(String productId, double percent){
+        for (Product p:products){
+            if (p.getId().equals(productId)){
+                double afterOffer = p.getPrice() - ((percent/100)* p.getPrice());
+                p.setPrice(afterOffer);
+            }
+        }
+    }
 
 }

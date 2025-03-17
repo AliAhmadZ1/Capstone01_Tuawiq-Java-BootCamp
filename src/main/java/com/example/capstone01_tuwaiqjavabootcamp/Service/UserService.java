@@ -1,26 +1,29 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
-import com.example.capstone01_tuwaiqjavabootcamp.Model.Merchant;
-import com.example.capstone01_tuwaiqjavabootcamp.Model.MerchantStock;
-import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
-import com.example.capstone01_tuwaiqjavabootcamp.Model.User;
+import com.example.capstone01_tuwaiqjavabootcamp.Model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final MerchantService merchantService;
     private final ProductService productService;
     private final MerchantStockService merchantStockService;
+    private final CategoryService categoryService;
     ArrayList<User> users = new ArrayList<>();
+    ArrayList<Category> categories = new ArrayList<>();
+    ArrayList<Product> products = new ArrayList<>();
 
-    public UserService(MerchantService merchantService, ProductService productService, MerchantStockService merchantStockService) {
-        this.merchantService = merchantService;
-        this.productService = productService;
-        this.merchantStockService = merchantStockService;
-    }
+//    public UserService(MerchantService merchantService, ProductService productService, MerchantStockService merchantStockService, CategoryService categoryService) {
+//        this.merchantService = merchantService;
+//        this.productService = productService;
+//        this.merchantStockService = merchantStockService;
+//        this.categoryService = categoryService;
+//    }
 
     public ArrayList<User> getUsers() {
         return users;
@@ -55,9 +58,9 @@ public class UserService {
         return "";
     }
 
-    public boolean deleteUser(String id){
-        for (User u:users){
-            if (u.getId().equals(id)){
+    public boolean deleteUser(String id) {
+        for (User u : users) {
+            if (u.getId().equals(id)) {
                 users.remove(u);
                 return true;
             }
@@ -72,36 +75,60 @@ public class UserService {
 //• reduce the stock from the MerchantStock.
 //• deducted the price of the product from the user balance.
 //• if balance is less than the product price returns bad request.
-    public String buyProduct(String userId, String productId, String merchantId){
-        for (User u:users){
-            if (u.getId().equals(userId)){//user id
-                    for (Product p : productService.getProduct()) {
-                        if (p.getId().equals(productId)) { //product id
-                            for (Merchant m : merchantService.getMerchant()) {
-                                if (m.getId().equals(merchantId)) { //merchant id
-                                    for (MerchantStock ms:merchantStockService.getMerchantStock()) {
-                                        if (ms.getProductId().equals(productId)&&ms.getMerchantId().equals(merchantId)){ //merchant stock
-                                            if (ms.getStock()>0){ //check stock
-                                                if (u.getBalance()>=p.getPrice()) { //check balance
-                                                    ms.setStock(ms.getStock() - 1);
-                                                    u.setBalance(u.getBalance() - p.getPrice());
-                                                    return "buy";
-                                                }
-                                                return "less balance";
+    public String buyProduct(String userId, String productId, String merchantId) {
+        for (User u : users) {
+            if (u.getId().equals(userId)) {//user id
+                for (Product p : productService.getProduct()) {
+                    if (p.getId().equals(productId)) { //product id
+                        for (Merchant m : merchantService.getMerchant()) {
+                            if (m.getId().equals(merchantId)) { //merchant id
+                                for (MerchantStock ms : merchantStockService.getMerchantStock()) {
+                                    if (ms.getProductId().equals(productId) && ms.getMerchantId().equals(merchantId)) { //merchant stock
+                                        if (ms.getStock() > 0) { //check stock
+                                            if (u.getBalance() >= p.getPrice()) { //check balance
+                                                ms.setStock(ms.getStock() - 1);
+                                                u.setBalance(u.getBalance() - p.getPrice());
+                                                return "buy";
                                             }
-                                            return "no stock";
+                                            return "less balance";
                                         }
+                                        return "no stock";
                                     }
                                 }
-                                return "merchant";
                             }
+                            return "merchant";
                         }
                     }
+                }
                 return "product";
             }
         }
         return "user";
     }
 
+    // extra endpoint 1
+    // search products by category and price range and availability(stock)
+
+    public ArrayList<String> searchFilter(String categoryName, int min, int max) {
+
+        ArrayList<String> filteredList = new ArrayList<>();
+        categories = categoryService.getCategories();
+        products = productService.getProduct();
+        for (Product p : products) {
+            if (p.getPrice() >= min && p.getPrice() <= max) {
+                for (Category c : categories) {
+                    if (c.getName().equalsIgnoreCase(categoryName)) {
+                        for (MerchantStock ms : merchantStockService.getMerchantStock()) {
+                            if (ms.getStock() >= 1) {
+                                String add = "product: " + p.getName() + " with ID: " + p.getId() + ". Merchant ID: " + ms.getMerchantId();
+                                filteredList.add(add);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return filteredList;
+    }
 
 }

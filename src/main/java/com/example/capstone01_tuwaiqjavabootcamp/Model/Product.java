@@ -22,6 +22,7 @@ public class Product {
     @Positive(message = "price shouldn't be negative")
     private double price;
     private double offerPrice = 0;
+    private double withTax = 0;
     @NotNull(message = "category ID cannot be null!!")
     private int categoryID;
 

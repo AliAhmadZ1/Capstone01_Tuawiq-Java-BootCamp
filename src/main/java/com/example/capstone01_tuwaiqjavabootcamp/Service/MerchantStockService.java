@@ -1,11 +1,13 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
 import com.example.capstone01_tuwaiqjavabootcamp.Model.MerchantStock;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class MerchantStockService {
 
     ArrayList<MerchantStock> merchantStocks = new ArrayList<>();
@@ -16,7 +18,7 @@ public class MerchantStockService {
     }
 
     public boolean addMerchantStock(MerchantStock merchantStock) {
-        for (MerchantStock m:merchantStocks) {
+        for (MerchantStock m : merchantStocks) {
             if (m.getId().equals(merchantStock.getId()))
                 return false;
         }
@@ -25,7 +27,7 @@ public class MerchantStockService {
     }
 
     public boolean updateMerchantStock(String id, MerchantStock merchantStock) {
-        for (MerchantStock m:merchantStocks) {
+        for (MerchantStock m : merchantStocks) {
             if (m.getId().equals(id)) {
                 merchantStocks.set(merchantStocks.indexOf(m), merchantStock);
                 return true;
@@ -35,7 +37,7 @@ public class MerchantStockService {
     }
 
     public boolean deleteMerchantStock(String id) {
-        for (MerchantStock m:merchantStocks) {
+        for (MerchantStock m : merchantStocks) {
             if (m.getId().equals(id)) {
                 merchantStocks.remove(m);
                 return true;
@@ -43,4 +45,5 @@ public class MerchantStockService {
         }
         return false;
     }
+
 }

@@ -53,4 +53,5 @@ public class MerchantStockController {
             return ResponseEntity.status(200).body(new ApiResponse("merchantStock is deleted"));
         return ResponseEntity.status(400).body(new ApiResponse("not found"));
     }
+
 }

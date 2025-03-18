@@ -63,4 +63,11 @@ public class ProductController {
         return ResponseEntity.status(400).body(new ApiResponse("not found product of coupon or already product has offer"));
     }
 
+    @GetMapping("/get-category-price/{categoryName}")
+    public ResponseEntity getCategoryProductPrices(String categoryName){
+        if (productService.printByPriceWithCategory(categoryName).isEmpty())
+            return ResponseEntity.status(400).body(new ApiResponse("not found"));
+        return ResponseEntity.status(200).body(productService.printByPriceWithCategory(categoryName));
+    }
+
 }

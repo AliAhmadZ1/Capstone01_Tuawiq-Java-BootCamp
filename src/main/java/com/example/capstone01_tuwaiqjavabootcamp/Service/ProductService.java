@@ -22,12 +22,12 @@ public class ProductService {
 
     public String addProduct(Product product) {
         categories = categoryService.getCategories();
-        for (Product p:products) {
+        for (Product p : products) {
             if (p.getId().equals(product.getId()))
                 return "id";
         }
-        for (Category c:categories){
-            if (c.getId()==product.getCategoryID()){
+        for (Category c : categories) {
+            if (c.getId() == product.getCategoryID()) {
                 products.add(product);
                 return "category";
             }
@@ -36,7 +36,7 @@ public class ProductService {
     }
 
     public boolean updateProduct(String id, Product product) {
-        for (Product p:products) {
+        for (Product p : products) {
             if (p.getId().equals(id)) {
                 products.set(products.indexOf(p), product);
                 return true;
@@ -46,7 +46,7 @@ public class ProductService {
     }
 
     public boolean deleteProduct(String id) {
-        for (Product p:products) {
+        for (Product p : products) {
             if (p.getId().equals(id)) {
                 products.remove(p);
                 return true;
@@ -55,10 +55,10 @@ public class ProductService {
         return false;
     }
 
-    public boolean addOffer(String productId, double percent){
-        for (Product p:products){
-            if (p.getId().equals(productId)){
-                double afterOffer = p.getPrice() - ((percent/100)* p.getPrice());
+    public boolean addOffer(String productId, double percent) {
+        for (Product p : products) {
+            if (p.getId().equals(productId)) {
+                double afterOffer = p.getPrice() - ((percent / 100) * p.getPrice());
                 p.setOfferPrice(afterOffer);
                 return true;
             }
@@ -84,4 +84,17 @@ public class ProductService {
         return flag;
     }
 
+    public boolean removeTax() {
+        boolean flag = false;
+        for (Product p : products) {
+            if (p.getWithTax()!=0) {
+                p.setWithTax(0);
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 }
+
+

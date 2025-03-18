@@ -66,4 +66,22 @@ public class ProductService {
         return false;
     }
 
+    //assistant extra point 3
+    public boolean addTax(double tax) {
+        boolean flag = false;
+        for (Product p : products) {
+            if (p.getWithTax() == 0) {
+                if (p.getOfferPrice() > 0) {
+                    double taxed = (p.getOfferPrice() * (tax / 100)) + p.getOfferPrice();
+                    p.setWithTax(taxed);
+                } else {
+                    double taxed = (p.getPrice() * (tax / 100)) + p.getPrice();
+                    p.setWithTax(taxed);
+                }
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 }

@@ -134,11 +134,23 @@ public class UserService {
     //extra point 3
     // user admin can add tax on products
     public boolean addTax(String id, double tax) {
+        if (tax > 0) {
+            for (User u : users) {
+                if (u.getId().equals(id)) {
+                    if (u.getRole().equals("Admin")||u.getRole().equals("Manager")) {
+                        return productService.addTax(tax);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean removeTax(String id) {
         for (User u : users) {
             if (u.getId().equals(id)) {
-                if (u.getRole().equals("Admin")) {
-                    productService.addTax(tax);
-                    return true;
+                if (u.getRole().equals("Manager")) {
+                    return productService.removeTax();
                 }
             }
         }

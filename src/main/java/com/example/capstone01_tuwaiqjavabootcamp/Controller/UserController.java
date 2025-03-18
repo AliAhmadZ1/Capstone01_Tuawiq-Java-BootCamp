@@ -107,6 +107,13 @@ public class UserController {
             return ResponseEntity.status(200).body(new ApiResponse("Tax added"));
         return ResponseEntity.status(400).body(new ApiResponse("ERROR of: not found, role permission or already signed"));
     }
+
+    @PutMapping("/remove-tax/{userId}")
+    public ResponseEntity removeTax(@PathVariable String userId){
+        if (userService.removeTax(userId))
+            return ResponseEntity.status(200).body(new ApiResponse("Tax is deleted"));
+        return ResponseEntity.status(400).body(new ApiResponse("ERROR of: not found, role permission or already removed"));
+    }
 }
 
 

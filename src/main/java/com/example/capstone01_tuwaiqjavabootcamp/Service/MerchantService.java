@@ -49,6 +49,8 @@ public class MerchantService {
         return false;
     }
 
+    //extra point 2
+    // merchant can add offer on his products
     public String addProductStock(String productId, String merchantId, int stockAmount){
         for (Merchant m:merchants){
             if (m.getId().equals(merchantId)){
@@ -67,6 +69,7 @@ public class MerchantService {
         }
         return "";
     }
+
 
     public boolean addProductOffer(String merchantId, double percent){
         boolean addOffer = false;

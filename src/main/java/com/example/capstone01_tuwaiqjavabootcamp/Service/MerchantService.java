@@ -69,17 +69,18 @@ public class MerchantService {
     }
 
     public boolean addProductOffer(String merchantId, double percent){
+        boolean addOffer = false;
         for (Merchant m: merchants){
             if (m.getId().equals(merchantId)){
                 for (MerchantStock ms: merchantStockService.getMerchantStock()){
                     if (m.getId().equals(ms.getMerchantId())){
-                        productService.addOffer(ms.getProductId(),percent);
-                        return true;
+                        addOffer = productService.addOffer(ms.getProductId(),percent);
                     }
                 }
             }
         }
-        return false;
+        return addOffer;
     }
+
 
 }

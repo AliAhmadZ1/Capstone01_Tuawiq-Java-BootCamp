@@ -56,4 +56,11 @@ public class ProductController {
         return ResponseEntity.status(400).body(new ApiResponse("not found"));
     }
 
+    @PutMapping("/coupon/{productId},{coupon}")
+    public ResponseEntity useCoupon(@PathVariable String productId,@PathVariable String coupon){
+        if (productService.useCoupon(productId, coupon))
+            return ResponseEntity.status(200).body(new ApiResponse("coupon is successfully applied"));
+        return ResponseEntity.status(400).body(new ApiResponse("not found product of coupon or already product has offer"));
+    }
+
 }

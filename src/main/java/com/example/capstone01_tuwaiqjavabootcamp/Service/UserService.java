@@ -18,6 +18,7 @@ public class UserService {
     ArrayList<Category> categories = new ArrayList<>();
     ArrayList<Product> products = new ArrayList<>();
 
+
     public ArrayList<User> getUsers(){
         return users;
     }
@@ -102,7 +103,7 @@ public class UserService {
     // extra endpoint 1
     // search products by category and price range and availability(stock)
 
-    public ArrayList<String> searchFilter(String categoryName, int min, int max) {
+    public ArrayList<String> filterSearch(String categoryName, int min, int max) {
 
         ArrayList<String> filteredList = new ArrayList<>();
         categories = categoryService.getCategories();
@@ -126,6 +127,7 @@ public class UserService {
 
     //extra point 3
     // user admin can add tax on products
+
     public boolean addTax(String id, double tax) {
         if (tax > 0) {
             for (User u : users) {
@@ -141,6 +143,7 @@ public class UserService {
 
     //extra point 3.1
     // user manager can remove tax from products
+
     public boolean removeTax(String id) {
         for (User u : users) {
             if (u.getId().equals(id)) {

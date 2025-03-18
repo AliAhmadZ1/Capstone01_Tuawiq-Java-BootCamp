@@ -15,6 +15,10 @@ public class ProductService {
     ArrayList<Product> products = new ArrayList<>();
     ArrayList<Category> categories = new ArrayList<>();
 
+
+    String[] coupons = {"a12bcd","34erd"};//1. 15% //2. 50%
+
+
     public ArrayList<Product> getProduct() {
         return products;
     }
@@ -67,6 +71,7 @@ public class ProductService {
 
 
     //assistant extra point 3
+
     public boolean addTax(double tax) {
         boolean flag = false;
         for (Product p : products) {
@@ -94,6 +99,30 @@ public class ProductService {
         }
         return flag;
     }
+
+    //extra point 4
+    // this apply 15 or 50 percent of discount on product
+
+    public boolean useCoupon(String productId, String coupon){
+        for (Product p:products){
+            if (p.getId().equals(productId)){
+                if (p.getOfferPrice()!=0)
+                    return false;
+                if (coupon.equals(coupons[0])) {
+                    double discount = p.getPrice() - (p.getPrice()*(0.15));
+                    p.setOfferPrice(discount);
+                    return true;
+                }
+                if (coupon.equals(coupons[1])) {
+                    double discount = p.getPrice() - (p.getPrice()*(0.5));
+                    p.setOfferPrice(discount);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
 }
 

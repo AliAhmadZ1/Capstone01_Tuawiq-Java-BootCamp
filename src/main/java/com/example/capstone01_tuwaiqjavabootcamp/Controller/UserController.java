@@ -95,10 +95,10 @@ public class UserController {
     }
 
     @GetMapping("/search-filter/{categoryName},{min},{max}")
-    public ResponseEntity searchFilter(@PathVariable String categoryName, @PathVariable int min,@PathVariable int max){
-        if (userService.searchFilter(categoryName, min, max).isEmpty())
+    public ResponseEntity filterSearch(@PathVariable String categoryName, @PathVariable int min,@PathVariable int max){
+        if (userService.filterSearch(categoryName, min, max).isEmpty())
             return ResponseEntity.status(400).body(new ApiResponse("Can't find results of your search"));
-        return ResponseEntity.status(200).body(userService.searchFilter(categoryName, min, max));
+        return ResponseEntity.status(200).body(userService.filterSearch(categoryName, min, max));
     }
 
     @PutMapping("/add-tax/{userId},{tax}")

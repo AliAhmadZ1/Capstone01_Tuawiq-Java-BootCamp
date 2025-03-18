@@ -2,7 +2,6 @@ package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Category;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
-import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

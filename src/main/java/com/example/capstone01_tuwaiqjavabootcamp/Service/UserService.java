@@ -18,14 +18,7 @@ public class UserService {
     ArrayList<Category> categories = new ArrayList<>();
     ArrayList<Product> products = new ArrayList<>();
 
-//    public UserService(MerchantService merchantService, ProductService productService, MerchantStockService merchantStockService, CategoryService categoryService) {
-//        this.merchantService = merchantService;
-//        this.productService = productService;
-//        this.merchantStockService = merchantStockService;
-//        this.categoryService = categoryService;
-//    }
-
-    public ArrayList<User> getUsers() {
+    public ArrayList<User> getUsers(){
         return users;
     }
 
@@ -146,6 +139,8 @@ public class UserService {
         return false;
     }
 
+    //extra point 3.1
+    // user manager can remove tax from products
     public boolean removeTax(String id) {
         for (User u : users) {
             if (u.getId().equals(id)) {
@@ -156,5 +151,6 @@ public class UserService {
         }
         return false;
     }
+
 
 }

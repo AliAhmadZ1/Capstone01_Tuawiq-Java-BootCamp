@@ -101,8 +101,15 @@ public class UserController {
         return ResponseEntity.status(200).body(userService.searchFilter(categoryName, min, max));
     }
 
-
-
-
-
+    @PutMapping("/add-tax/{userId},{tax}")
+    public ResponseEntity addTax(@PathVariable String userId, @PathVariable double tax){
+        if (userService.addTax(userId,tax))
+            return ResponseEntity.status(200).body(new ApiResponse("Tax added"));
+        return ResponseEntity.status(400).body(new ApiResponse("ERROR of: not found, role permission or already signed"));
+    }
 }
+
+
+
+
+

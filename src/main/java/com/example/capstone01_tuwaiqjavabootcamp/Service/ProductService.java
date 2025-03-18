@@ -66,6 +66,7 @@ public class ProductService {
         return false;
     }
 
+
     //assistant extra point 3
     public boolean addTax(double tax) {
         boolean flag = false;

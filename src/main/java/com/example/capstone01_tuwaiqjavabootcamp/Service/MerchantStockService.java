@@ -1,6 +1,8 @@
 package com.example.capstone01_tuwaiqjavabootcamp.Service;
 
+import com.example.capstone01_tuwaiqjavabootcamp.Model.Merchant;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.MerchantStock;
+import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,14 @@ public class MerchantStockService {
             }
         }
         return false;
+    }
+
+    public void updateProductStock(String productId) {
+        for (MerchantStock ms : merchantStocks) {
+            if (ms.getProductId().equals(productId)) {
+                ms.setStock(ms.getStock()+1);
+            }
+        }
     }
 
 }

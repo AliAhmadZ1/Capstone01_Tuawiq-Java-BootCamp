@@ -32,7 +32,7 @@ public class User {
     @Email(/*regexp = "^(\\w([\\w]|[\\d+])+[.|_]*([\\w]|[\\d+])*)@$",*/ message = "should be an email format (example@test)")
     private String email;
     @NotEmpty(message = "role cannot be empty")
-    @Pattern(regexp = "^(Admin|Customer|Manager)$",message = "role have to be in (“Admin”,”Customer”)")
+    @Pattern(regexp = "^(Admin|admin|Customer|customer|Manager|manager)$",message = "role have to be in (“Admin”,”Customer”)")
     private String role;
     @NotNull(message = "balance cannot be null")
     @PositiveOrZero(message = "balance have to be positive number")

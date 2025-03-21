@@ -3,6 +3,7 @@ package com.example.capstone01_tuwaiqjavabootcamp.Service;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Merchant;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.MerchantStock;
 import com.example.capstone01_tuwaiqjavabootcamp.Model.Product;
+import com.example.capstone01_tuwaiqjavabootcamp.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,16 @@ public class MerchantService {
     private final ProductService productService;
     private final MerchantStockService merchantStockService;
     ArrayList<Merchant> merchants = new ArrayList<>();
+    ArrayList<User> buyers = new ArrayList<>();
+    ArrayList<Product> purchased = new ArrayList<>();
+
 
     public ArrayList<Merchant> getMerchant() {
         return merchants;
     }
 
     public boolean addMerchant(Merchant merchant) {
-        for (Merchant m:merchants) {
+        for (Merchant m : merchants) {
             if (m.getId().equals(merchant.getId()))
                 return false;
         }
@@ -30,7 +34,7 @@ public class MerchantService {
     }
 
     public boolean updateMerchant(String id, Merchant merchant) {
-        for (Merchant m:merchants) {
+        for (Merchant m : merchants) {
             if (m.getId().equals(id)) {
                 merchants.set(merchants.indexOf(m), merchant);
                 return true;
@@ -40,7 +44,7 @@ public class MerchantService {
     }
 
     public boolean deleteMerchant(String id) {
-        for (Merchant m:merchants) {
+        for (Merchant m : merchants) {
             if (m.getId().equals(id)) {
                 merchants.remove(m);
                 return true;
@@ -51,14 +55,14 @@ public class MerchantService {
 
     //extra point 2
     // merchant can add offer on his products
-    public String addProductStock(String productId, String merchantId, int stockAmount){
-        for (Merchant m:merchants){
-            if (m.getId().equals(merchantId)){
-                for (Product p: productService.getProduct()){
-                    if (p.getId().equals(productId)){
-                        for (MerchantStock ms:merchantStockService.getMerchantStock()){
-                            if (ms.getMerchantId().equals(merchantId)&&ms.getProductId().equals(productId)){
-                                ms.setStock(ms.getStock()+stockAmount);
+    public String addProductStock(String productId, String merchantId, int stockAmount) {
+        for (Merchant m : merchants) {
+            if (m.getId().equals(merchantId)) {
+                for (Product p : productService.getProduct()) {
+                    if (p.getId().equals(productId)) {
+                        for (MerchantStock ms : merchantStockService.getMerchantStock()) {
+                            if (ms.getMerchantId().equals(merchantId) && ms.getProductId().equals(productId)) {
+                                ms.setStock(ms.getStock() + stockAmount);
                                 return "stocked";
                             }
                         }
@@ -71,13 +75,13 @@ public class MerchantService {
     }
 
 
-    public boolean addProductOffer(String merchantId, double percent){
+    public boolean addProductOffer(String merchantId, double percent) {
         boolean addOffer = false;
-        for (Merchant m: merchants){
-            if (m.getId().equals(merchantId)){
-                for (MerchantStock ms: merchantStockService.getMerchantStock()){
-                    if (m.getId().equals(ms.getMerchantId())){
-                        addOffer = productService.addOffer(ms.getProductId(),percent);
+        for (Merchant m : merchants) {
+            if (m.getId().equals(merchantId)) {
+                for (MerchantStock ms : merchantStockService.getMerchantStock()) {
+                    if (m.getId().equals(ms.getMerchantId())) {
+                        addOffer = productService.addOffer(ms.getProductId(), percent);
                     }
                 }
             }
@@ -85,5 +89,22 @@ public class MerchantService {
         return addOffer;
     }
 
+    public void addBuyer(User user,Product product){
+        buyers.add(user);
+        purchased.add(product);
+    }
+
+    public boolean returnProduct(String userId,String productId){
+        for (User u: buyers) {
+            if (u.getId().equals(userId)) {
+                for (Product p : purchased) {
+                    if (p.getId().equals(productId)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
 }

@@ -82,6 +82,10 @@ public class UserService {
                                             if (u.getBalance() >= p.getPrice()) { //check balance
                                                 ms.setStock(ms.getStock() - 1);
                                                 u.setBalance(u.getBalance() - p.getPrice());
+                                                merchantService.addBuyer(u,p);
+                                                ArrayList<Product> test = new ArrayList<>();
+                                                u.setPurchased(test);
+                                                u.getPurchased().add(p);
                                                 return "buy";
                                             }
                                             return "less balance";
@@ -153,6 +157,29 @@ public class UserService {
             }
         }
         return false;
+    }
+
+    public String returnProduct(String id, String productId){
+        products = productService.getProduct();
+        for (User u: users) {
+            if (u.getId().equals(id)) {
+                for (Product p : u.getPurchased()) {
+                    if (p.getId().equals(productId)) {
+                        if (merchantService.returnProduct(id, productId)){
+                            merchantStockService.updateProductStock(productId);
+                            if (p.getOfferPrice()==0)
+                                u.setBalance(u.getBalance()+p.getPrice());
+                            else
+                                u.setBalance(u.getBalance()+p.getOfferPrice());
+                            u.getPurchased().remove(p);
+                            return "returned";
+                        }
+                    }
+                }
+                return "product";
+            }
+        }
+        return "user";
     }
 
 

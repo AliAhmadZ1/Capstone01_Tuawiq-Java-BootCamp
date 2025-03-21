@@ -114,6 +114,17 @@ public class UserController {
             return ResponseEntity.status(200).body(new ApiResponse("Tax is deleted"));
         return ResponseEntity.status(400).body(new ApiResponse("ERROR of: not found, role permission or already removed"));
     }
+
+    @PutMapping("/return-product/{id},{productId}")
+    public ResponseEntity returnProduct(@PathVariable String id,@PathVariable String productId){
+        if (userService.returnProduct(id, productId).equals("user"))
+            return ResponseEntity.status(400).body(new ApiResponse("this user not exist"));
+        if (userService.returnProduct(id, productId).equals("product"))
+            return ResponseEntity.status(400).body(new ApiResponse("you've not buy this product"));
+        if (userService.returnProduct(id, productId).equals("returned"))
+            return ResponseEntity.status(200).body(new ApiResponse("the product is returned successfully"));
+        return ResponseEntity.status(400).body(new ApiResponse("ERROR"));
+    }
 }
 
 
